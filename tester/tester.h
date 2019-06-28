@@ -26,7 +26,7 @@ using namespace std;
 #endif
 
 #define NUMBER_OF_TESTS 10
-
+/*
 class Tester {
     private:
         template <typename T>
@@ -40,6 +40,6 @@ class Tester {
 
     public:
         static void execute();
-};
+};*/
 
 #endif

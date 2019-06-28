@@ -1,5 +1,5 @@
 #include "tester.h"
-
+/*
 void Tester::execute() {
     Mocker mocker;
 
@@ -66,3 +66,4 @@ Matrix<T> Tester::setMatrix(T **&matrix, unsigned int rows, unsigned int columns
 
     return result;
 }
+*/
