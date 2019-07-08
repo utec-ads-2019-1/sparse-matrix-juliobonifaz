@@ -21,10 +21,10 @@ public:
 
         for (unsigned i = 0; i< rows; ++i){
             Node<T> *temp = new Node<T>;
-            temp->y = i;
-            dummy->down = temp;
-            dummy = dummy->down;
-        }
+        temp->y = i;
+        dummy->down = temp;
+        dummy = dummy->down;
+    }
 
         dummy = this->root;
 
@@ -115,15 +115,113 @@ public:
 
 
     Matrix<T> operator+(Matrix<T> other) const{
+        if (rows==other.rows and columns == other.columns){
+            Matrix NewMatrix(rows, other.columns);
+            int temp = 0;
+            for (unsigned i = 0; i < rows; ++i) {
+
+                for (unsigned j = 0; j < columns; ++j) {
+
+                    temp = temp + (this->operator()(i, j) + other(i, j));
+
+                    NewMatrix(i, j) = temp;
+                    temp = 0;
+                }
+
+            }
+            return NewMatrix;
+
+        }
+
+
+        else{
+            Matrix NewMatrix(rows+other.rows,columns+other.columns);
+            int temp = 0;
+            int counter = 0;
+            for (unsigned i = 0; i < rows+other.rows; ++i) {
+                if (i > rows){
+                    i = i-rows;
+                }
+
+                for (unsigned j = 0; j < columns + other.columns; ++j) {
+                    if (j > columns){
+                        temp = temp + (this->operator()(i+rows, j) );
+                    }
+                    temp = temp + (this->operator()(i, j) );
+
+
+
+                    NewMatrix(i, j) = temp;
+                    temp = 0;
+                }
+
+            }
+            return NewMatrix;
+        }
+
+
 
     };
     Matrix<T> operator-(Matrix<T> other) const{
+        Matrix NewMatrix(rows, other.columns);
+        int temp = 0;
+        for (unsigned i = 0; i < rows; ++i) {
+
+            for (unsigned j = 0; j < columns; ++j) {
+
+                temp = temp + (this->operator()(i, j) + other(i, j));
+
+                NewMatrix(i, j) = temp;
+                temp = 0;
+            }
+
+        }
+        return NewMatrix;
+
 
     };
-    Matrix<T> transpose() const;
-    void print() const;
+    Matrix<T> transpose() const{
+        Matrix NewMatrix(columns,rows);
+        Node<T> *temp = root->next;
+        for (unsigned int i = 0; i <rows ; ++i) {
+            for (unsigned int j = 0; j <columns ; ++j) {
+                NewMatrix.set(j,i,NewMatrix(i,j));
+            }
 
-    ~Matrix();
+        }
+        return NewMatrix;
+    };
+
+    void print() const{
+        Node<T> *temp = root->next;
+        for (unsigned int i = 0; i <columns ; ++i) {
+            for (unsigned int j = 0; j <rows ; ++j) {
+                printf(Matrix(i,j)),printf(" ");
+            }
+            printf("\n");
+
+        }
+
+    };
+
+    ~Matrix(){
+
+
+        Node<T> *temp = root->next;
+
+        while(rows > temp->x){
+            Node<T> *temp2 = temp;
+            temp = temp->next;
+            delete(temp2);
+        }
+        temp = temp->down;
+        while(temp != nullptr and columns > temp->y ) {
+            Node<T> *temp2 = temp;
+
+            temp = temp->down;
+            delete (temp2);
+        }
+    };
 };
 
 #endif //SPARSE_MATRIX_MATRIX_H
